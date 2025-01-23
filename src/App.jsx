@@ -11,6 +11,7 @@ import PageNotFound from './pages/PageNotFound';
 import CityList from './components/CityList';
 import City from './components/City';
 import CountryList from './components/CountryList';
+import Form from './components/Form';
 
 polyfillCountryFlagEmojis();
 
@@ -64,7 +65,7 @@ export default function App() {
             path="countries"
             element={<CountryList cities={cities} isLoading={isLoading} />}
           />
-          <Route path="form" element={<p>form</p>} />
+          <Route path="form" element={<Form />} />
         </Route>
         <Route path="product" element={<Product />} />
         <Route path="pricing" element={<Pricing />} />
