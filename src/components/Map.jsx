@@ -43,7 +43,11 @@ export default function Map() {
         zoom={13}
         scrollWheelZoom={true}
       >
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        <TileLayer
+          url="http://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}"
+          maxZoom={20}
+          subdomains={['mt0', 'mt1', 'mt2', 'mt3']}
+        />
         {cities.map(city => (
           <Marker
             position={[city.position.lat, city.position.lng]}
