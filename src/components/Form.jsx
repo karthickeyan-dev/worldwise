@@ -32,6 +32,8 @@ export default function Form() {
   useEffect(() => {
     async function getGeoCode() {
       try {
+        if (!lat && !lng) return;
+
         setIsLoadingGeoCode(true);
         setGeoCodeError('');
         const res = await fetch(`${BASE_URL}?latitude=${lat}&longitude=${lng}`);
@@ -54,6 +56,9 @@ export default function Form() {
   }, [lat, lng]);
 
   if (geoCodeError) return <Message message={geoCodeError} />;
+
+  if (!lat && !lng)
+    return <Message message="Start by clicking somewhere on the map" />;
 
   if (isLoadingGeoCode) return <Spinner />;
 
