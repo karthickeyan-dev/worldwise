@@ -4,7 +4,7 @@ import { useCities } from '../contexts/citiesContext';
 
 export default function CityItem({ city }) {
   const { emoji, cityName, date, id, position } = city;
-  const { currentCity } = useCities();
+  const { currentCity, deleteCity } = useCities();
 
   const formatDate = date =>
     new Intl.DateTimeFormat('en', {
@@ -13,6 +13,11 @@ export default function CityItem({ city }) {
       year: 'numeric',
       weekday: 'long',
     }).format(new Date(date));
+
+  function handleClick(e) {
+    e.preventDefault();
+    deleteCity(id);
+  }
 
   return (
     <li>
@@ -25,7 +30,9 @@ export default function CityItem({ city }) {
         <span className={styles.emoji}>{emoji}</span>
         <p className={styles.name}>{cityName}</p>
         <time className={styles.date}>({formatDate(date)})</time>
-        <button className={styles.deleteBtn}>&times;</button>
+        <button className={styles.deleteBtn} onClick={handleClick}>
+          &times;
+        </button>
       </Link>
     </li>
   );

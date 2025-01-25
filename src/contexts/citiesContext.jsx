@@ -9,7 +9,7 @@ export function CitiesProvider({ children }) {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    async function fetchCities() {
+    async function getCities() {
       try {
         setIsLoading(true);
         const res = await fetch(`${BASE_URL}/cities`);
@@ -24,10 +24,10 @@ export function CitiesProvider({ children }) {
       }
     }
 
-    fetchCities();
+    getCities();
   }, []);
 
-  async function fetchCurrentCity(id) {
+  async function getCurrentCity(id) {
     try {
       setIsLoading(true);
       const res = await fetch(`${BASE_URL}/cities/${id}`);
@@ -42,9 +42,51 @@ export function CitiesProvider({ children }) {
     }
   }
 
+  async function addNewCity(newCity) {
+    try {
+      setIsLoading(true);
+      const res = await fetch(`${BASE_URL}/cities/`, {
+        method: 'POST',
+        body: JSON.stringify(newCity),
+        headers: { 'Content-Type': 'application/json' },
+      });
+      const data = await res.json();
+      setCities(cities => [...cities, data]);
+    } catch (error) {
+      if (error.name !== 'AbortError') {
+        console.log(error);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function deleteCity(id) {
+    try {
+      setIsLoading(true);
+      await fetch(`${BASE_URL}/cities/${id}`, {
+        method: 'DELETE',
+      });
+      setCities(cities => cities.filter(city => city.id !== id));
+    } catch (error) {
+      if (error.name !== 'AbortError') {
+        console.log(error);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
     <citiesContext.Provider
-      value={{ cities, currentCity, fetchCurrentCity, isLoading }}
+      value={{
+        cities,
+        currentCity,
+        getCurrentCity,
+        addNewCity,
+        deleteCity,
+        isLoading,
+      }}
     >
       {children}
     </citiesContext.Provider>

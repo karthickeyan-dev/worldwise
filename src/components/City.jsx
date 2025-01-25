@@ -16,10 +16,10 @@ const formatDate = date =>
 
 export default function City() {
   const { id } = useParams();
-  const { currentCity, fetchCurrentCity, isLoading } = useCities();
+  const { currentCity, getCurrentCity, isLoading } = useCities();
 
   useEffect(() => {
-    fetchCurrentCity(id);
+    getCurrentCity(id);
   }, [id]);
 
   const { cityName, emoji, date, notes } = currentCity;
